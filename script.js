@@ -440,7 +440,7 @@ function LevelManager(){
 level=new LevelManager();
 
 function preload(){
-	font=loadFont("Pixelar.ttf");
+	font=loadFont("fonts/Pixelar.ttf");
 }
 
 function setup(){
