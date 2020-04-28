@@ -7,7 +7,7 @@ var Engine = Matter.Engine,
 	Constraint = Matter.Constraint;
 var engine = Engine.create();
 var world = engine.world;
-var bodies,canvas,objs=[],pickups=[],players=[],others=[];
+var bodies,canvas,door,objs=[],pickups=[],players=[],others=[];
 
 function resetMap(x=0,y=0,pwr=-1){
 	objs=[],others=[];
@@ -440,7 +440,7 @@ function LevelManager(){
 level=new LevelManager();
 
 function preload(){
-	font=loadFont("fonts/Pixelar.ttf");
+	font=loadFont("/Pixelar.ttf");
 }
 
 function setup(){
@@ -501,7 +501,7 @@ function draw(){
 		}
 	}
 	for(let a of pickups){
-		for(let b in a.bodies){
+		for(let b of a.bodies){
 			fill(color(b.render.fillStyle));
 			stroke(color(b.render.fillStyle));
 			// fill(0); 
@@ -521,6 +521,27 @@ function draw(){
 					circle(b.position.x+1920/2-sumx,b.position.y+1089/2-sumy-50,d);
 					break;
 			}
+		}
+	}
+	for(let b of door.body.bodies){
+		fill(color(b.render.fillStyle));
+		stroke(color(b.render.fillStyle));
+		// fill(0); 
+		switch(b.label.slice(0,-5)){
+			case "Rectangle":
+				beginShape();
+				for(let v of b.vertices) vertex(v.x+1920/2-sumx, v.y+1089/2-sumy-50);
+				endShape(CLOSE);
+				break;
+			case "Polygon":
+				beginShape();
+				for(let v of b.vertices) vertex(v.x+1920/2-sumx, v.y+1089/2-sumy-50);
+				endShape(CLOSE);
+				break;
+			case "Circle":
+				let d=(b.bounds.max.x-b.bounds.min.x+b.bounds.max.y-b.bounds.min.y)/2;
+				circle(b.position.x+1920/2-sumx,b.position.y+1089/2-sumy-50,d);
+				break;
 		}
 	}
 	for(let d of others){
